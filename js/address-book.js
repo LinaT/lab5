@@ -34,3 +34,29 @@ function sortObjArray(objArray, propName) {
     });
 } //sortObjArray()
 
+function render(entries) {
+    var template = $('.template');
+    var address = $('.address-book');
+    var instance;
+    address.empty();
+    $.each(entries, function(){ 
+        instance = template.clone();
+        for(prop in this) {
+            if(prop ===  "pic") {
+                instance.find('.' + prop).attr({
+                    src: this[prop],
+                    alt: 'Picture of the employee' + this[prop]
+                });    
+            } else {
+                instance.find('.' + prop).html(this[prop]);
+            }
+        }
+        instance.removeClass('template');
+        address.append(instance);
+    });
+}
+
+$(function() {
+    sortObjArray(Employees.entries, 'last');
+    render(Employees.entries);
+});

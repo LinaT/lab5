@@ -38,6 +38,7 @@ function render(entries) {
     var template = $('.template');
     var address = $('.address-book');
     var instance;
+   address.hide();
     address.empty();
     $.each(entries, function(){ 
         instance = template.clone();
@@ -53,10 +54,27 @@ function render(entries) {
         }
         instance.removeClass('template');
         address.append(instance);
+        address.fadeIn( 3000, function() {
+        });
     });
+
 }
 
 $(function() {
-    sortObjArray(Employees.entries, 'last');
+
     render(Employees.entries);
+    $('.btn').removeClass('active');
 });
+
+$(".btn").click(sortButton);
+function sortButton(){
+   var sBtn = $(this);
+   var button = $("sort-ui .btn");
+   $('.btn').removeClass('active');
+   button.siblings(".active").attr("class", "btn btn-default");
+   sBtn.addClass("active");
+   var sortProp = sBtn.attr("data-sortby");
+   sortObjArray(Employees.entries, sortProp);
+   render(Employees.entries);             
+}
+
